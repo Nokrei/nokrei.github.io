@@ -1,8 +1,8 @@
 import React from "react"
-
+import WeatherContainer from "./components/WeatherContainer"
 
 const App = () => {
-    return <h1>Hello World</h1>
+    return <WeatherContainer />
   };
 
 export default App
