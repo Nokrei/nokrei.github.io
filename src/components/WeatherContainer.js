@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import "dotenv/config.js";
 import Axios from "axios";
+import WeatherCard from "./WeatherCard"
+
 
 const WeatherContainer = () => {
     const [currentWeather, setCurrentWeather] = useState({});
@@ -30,14 +32,16 @@ const WeatherContainer = () => {
     }, []);
 
     return (
-        <div>
-      <div>Temp: {currentWeather.temp}</div>
-      <div>Humidity: {currentWeather.hum}</div>
-      <div>Low: {currentWeather.lowTemp}</div>
-      <div>High: {currentWeather.highTemp}</div>
-      <div>Sunrise: {currentWeather.sunrise}</div>
-      <div>Sunset: {currentWeather.sunset}</div>
-        </div>
+      <div>
+        <WeatherCard
+          temp={currentWeather.temp}
+          humidity={currentWeather.hum}
+          low={currentWeather.lowTemp}
+          high={currentWeather.highTemp}
+          sunrise={currentWeather.sunrise}
+          sunset={currentWeather.sunset}
+        />
+      </div>
     );
 };
 

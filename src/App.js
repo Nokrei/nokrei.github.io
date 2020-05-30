@@ -1,8 +1,9 @@
-import React from "react"
-import WeatherContainer from "./components/WeatherContainer"
+import React from "react";
+import WeatherContainer from "./components/WeatherContainer";
+import WeatherCard from "./components/WeatherCard";
 
 const App = () => {
-    return <WeatherContainer />
+    return <WeatherCard />
   };
 
 export default App
