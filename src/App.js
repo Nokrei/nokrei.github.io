@@ -3,7 +3,7 @@ import WeatherContainer from "./components/WeatherContainer";
 import WeatherCard from "./components/WeatherCard";
 
 const App = () => {
-    return <WeatherCard />
+    return <WeatherContainer />
   };
 
 export default App

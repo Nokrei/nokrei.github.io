@@ -8,3 +8,4 @@ import App from "./App"
     document.getElementById("root")
   );
 
+  console.log(process.env.API_KEY)

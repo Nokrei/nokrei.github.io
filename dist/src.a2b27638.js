@@ -30524,7 +30524,25 @@ module.exports.default = axios;
 
 },{"./utils":"node_modules/axios/lib/utils.js","./helpers/bind":"node_modules/axios/lib/helpers/bind.js","./core/Axios":"node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"node_modules/axios/lib/core/mergeConfig.js","./defaults":"node_modules/axios/lib/defaults.js","./cancel/Cancel":"node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"node_modules/axios/lib/helpers/spread.js"}],"node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"src/components/WeatherContainer.js":[function(require,module,exports) {
+},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"src/components/WeatherCard.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var WeatherCard = function WeatherCard(props) {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, props.temp, " "), /*#__PURE__*/_react.default.createElement("div", null, props.humidity, " "), /*#__PURE__*/_react.default.createElement("div", null, props.low, " "), /*#__PURE__*/_react.default.createElement("div", null, props.high, " "), /*#__PURE__*/_react.default.createElement("div", null, props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, props.sunset, " "));
+};
+
+var _default = WeatherCard;
+exports.default = _default;
+},{"react":"node_modules/react/index.js"}],"src/components/WeatherContainer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30538,6 +30556,8 @@ require("dotenv/config.js");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _WeatherCard = _interopRequireDefault(require("./WeatherCard"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -30548,7 +30568,7 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
@@ -30575,12 +30595,19 @@ var WeatherContainer = function WeatherContainer() {
       setCurrentWeather(weatherData);
     });
   }, []);
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, "Temp: ", currentWeather.temp), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", currentWeather.hum), /*#__PURE__*/_react.default.createElement("div", null, "Low: ", currentWeather.lowTemp), /*#__PURE__*/_react.default.createElement("div", null, "High: ", currentWeather.highTemp), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", currentWeather.sunrise), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", currentWeather.sunset));
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_WeatherCard.default, {
+    temp: currentWeather.temp,
+    humidity: currentWeather.hum,
+    low: currentWeather.lowTemp,
+    high: currentWeather.highTemp,
+    sunrise: currentWeather.sunrise,
+    sunset: currentWeather.sunset
+  }));
 };
 
 var _default = WeatherContainer;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","dotenv/config.js":"node_modules/dotenv/config.js","axios":"node_modules/axios/index.js"}],"src/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","dotenv/config.js":"node_modules/dotenv/config.js","axios":"node_modules/axios/index.js","./WeatherCard":"src/components/WeatherCard.js"}],"src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30592,6 +30619,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _WeatherContainer = _interopRequireDefault(require("./components/WeatherContainer"));
 
+var _WeatherCard = _interopRequireDefault(require("./components/WeatherCard"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -30600,7 +30629,7 @@ var App = function App() {
 
 var _default = App;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./components/WeatherContainer":"src/components/WeatherContainer.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./components/WeatherContainer":"src/components/WeatherContainer.js","./components/WeatherCard":"src/components/WeatherCard.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30612,6 +30641,8 @@ var _App = _interopRequireDefault(require("./App"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, null), document.getElementById("root"));
+
+console.log("aa347b74dfb95be2226e6cc5b1e11fe4");
 },{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./App":"src/App.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -30640,7 +30671,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49915" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61377" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
