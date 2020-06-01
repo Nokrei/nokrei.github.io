@@ -30536,8 +30536,14 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var numOfDay = new Date().getDay();
+var days = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."];
+var day = days[numOfDay - 1];
+
 var WeatherCard = function WeatherCard(props) {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, props.temp, " "), /*#__PURE__*/_react.default.createElement("div", null, props.humidity, " "), /*#__PURE__*/_react.default.createElement("div", null, props.low, " "), /*#__PURE__*/_react.default.createElement("div", null, props.high, " "), /*#__PURE__*/_react.default.createElement("div", null, props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, props.sunset, " "));
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "Card"
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, day)), /*#__PURE__*/_react.default.createElement("div", null, props.icon), /*#__PURE__*/_react.default.createElement("div", null, "Current: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
 };
 
 var _default = WeatherCard;
@@ -30585,12 +30591,16 @@ var WeatherContainer = function WeatherContainer() {
   (0, _react.useEffect)(function () {
     _axios.default.get("http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
       var weatherData = {
-        temp: response.data.list[0].main.temp,
+        temp: Math.round(response.data.list[0].main.temp),
         hum: response.data.list[0].main.humidity,
-        lowTemp: response.data.list[0].main.temp_min,
-        highTemp: response.data.list[0].main.temp_max,
+        lowTemp: Math.round(response.data.list[0].main.temp_min),
+        highTemp: Math.round(response.data.list[0].main.temp_max),
         sunrise: new Date(response.data.city.sunrise * 1000).getHours() + ':' + new Date(response.data.city.sunrise * 1000).getMinutes(),
-        sunset: new Date(response.data.city.sunset * 1000).getHours() + ':' + new Date(response.data.city.sunset * 1000).getMinutes()
+        sunset: new Date(response.data.city.sunset * 1000).getHours() + ':' + new Date(response.data.city.sunset * 1000).getMinutes(),
+        icon: /*#__PURE__*/_react.default.createElement("img", {
+          className: "Card-image",
+          src: "http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"
+        })
       };
       setCurrentWeather(weatherData);
     });
@@ -30601,7 +30611,8 @@ var WeatherContainer = function WeatherContainer() {
     low: currentWeather.lowTemp,
     high: currentWeather.highTemp,
     sunrise: currentWeather.sunrise,
-    sunset: currentWeather.sunset
+    sunset: currentWeather.sunset,
+    icon: currentWeather.icon
   }));
 };
 
@@ -30621,6 +30632,8 @@ var _WeatherContainer = _interopRequireDefault(require("./components/WeatherCont
 
 var _WeatherCard = _interopRequireDefault(require("./components/WeatherCard"));
 
+require("./");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -30629,7 +30642,79 @@ var App = function App() {
 
 var _default = App;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./components/WeatherContainer":"src/components/WeatherContainer.js","./components/WeatherCard":"src/components/WeatherCard.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./components/WeatherContainer":"src/components/WeatherContainer.js","./components/WeatherCard":"src/components/WeatherCard.js","./":"src/index.js"}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/App.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30638,12 +30723,14 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _App = _interopRequireDefault(require("./App"));
 
+require("./App.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, null), document.getElementById("root"));
 
 console.log("aa347b74dfb95be2226e6cc5b1e11fe4");
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./App":"src/App.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./App":"src/App.js","./App.css":"src/App.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -30671,7 +30758,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61377" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49469" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

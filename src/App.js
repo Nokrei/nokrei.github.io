@@ -1,6 +1,7 @@
 import React from "react";
 import WeatherContainer from "./components/WeatherContainer";
 import WeatherCard from "./components/WeatherCard";
+import "./"
 
 const App = () => {
     return <WeatherContainer />

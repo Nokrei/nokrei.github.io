@@ -13,10 +13,10 @@ const WeatherContainer = () => {
              process.env.API_KEY,
         ).then((response) => {
             const weatherData = {
-                temp: response.data.list[0].main.temp,
+                temp: Math.round(response.data.list[0].main.temp) ,
                 hum: response.data.list[0].main.humidity,
-                lowTemp: response.data.list[0].main.temp_min,
-                highTemp: response.data.list[0].main.temp_max,
+                lowTemp: Math.round(response.data.list[0].main.temp_min),
+                highTemp: Math.round(response.data.list[0].main.temp_max),
                 sunrise:
                   new Date(response.data.city.sunrise * 1000).getHours() +
                   ':' +
@@ -25,12 +25,12 @@ const WeatherContainer = () => {
                   new Date(response.data.city.sunset * 1000).getHours() +
                   ':' +
                   new Date(response.data.city.sunset * 1000).getMinutes(),
+                  icon: <img className="Card-image" src = {"http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"} />
             };
 
             setCurrentWeather(weatherData);
         });
     }, []);
-
     return (
       <div>
         <WeatherCard
@@ -40,6 +40,7 @@ const WeatherContainer = () => {
           high={currentWeather.highTemp}
           sunrise={currentWeather.sunrise}
           sunset={currentWeather.sunset}
+          icon={currentWeather.icon} 
         />
       </div>
     );
