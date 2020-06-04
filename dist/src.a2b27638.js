@@ -30543,7 +30543,7 @@ var day = days[numOfDay - 1];
 var WeatherCard = function WeatherCard(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "Card"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, day)), /*#__PURE__*/_react.default.createElement("div", null, "Current: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, day)), /*#__PURE__*/_react.default.createElement("div", null, props.icon), /*#__PURE__*/_react.default.createElement("div", null, "Current: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
 };
 
 var _default = WeatherCard;
@@ -30591,7 +30591,10 @@ var WeatherContainer = function WeatherContainer() {
   (0, _react.useEffect)(function () {
     _axios.default.get("http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
       var weatherData = response.data.list.map(function (item) {
-        temp = Math.Round(item.main.temp), hum = item.main.humidity, lowTemp = Math.round(item.main.temp_min), highTemp = Math.round(item.main.temp_max), sunrise = new Date(response.data.city.sunrise * 1000).getHours() + ':' + new Date(response.data.city.sunrise * 1000).getMinutes(), sunset = new Date(item.city.sunset * 1000).getHours() + ':' + new Date(item.city.sunset * 1000).getMinutes();
+        temp = Math.Round(item.main.temp), hum = item.main.humidity, lowTemp = Math.round(item.main.temp_min), highTemp = Math.round(item.main.temp_max), sunrise = new Date(item.city.sunrise * 1000).getHours() + ':' + new Date(item.city.sunrise * 1000).getMinutes(), sunset = new Date(item.city.sunset * 1000).getHours() + ':' + new Date(item.city.sunset * 1000).getMinutes(), icon = /*#__PURE__*/_react.default.createElement("img", {
+          className: "Card-image",
+          src: "http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"
+        });
       });
       /* {
            temp: Math.round(response.data.list[0].main.temp) ,
@@ -30620,7 +30623,8 @@ var WeatherContainer = function WeatherContainer() {
       low: weatherItem.lowTemp,
       high: weatherItem.highTemp,
       sunrise: weatherItem.sunrise,
-      sunset: weatherItem.sunset
+      sunset: weatherItem.sunset,
+      icon: weatherItem.icon
     });
   }));
 };
@@ -30767,7 +30771,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62892" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63073" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

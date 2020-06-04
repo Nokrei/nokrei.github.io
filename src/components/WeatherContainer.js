@@ -18,14 +18,14 @@ const WeatherContainer = () => {
               lowTemp = Math.round(item.main.temp_min),
               highTemp = Math.round(item.main.temp_max),
                 sunrise =
-                  new Date(response.data.city.sunrise * 1000).getHours() +
+                  new Date(item.city.sunrise * 1000).getHours() +
                   ':' +
-                  new Date(response.data.city.sunrise * 1000).getMinutes(),
+                  new Date(item.city.sunrise * 1000).getMinutes(),
                 sunset =
                   new Date(item.city.sunset * 1000).getHours() +
                   ':' +
-                  new Date(item.city.sunset * 1000).getMinutes()
-                   
+                  new Date(item.city.sunset * 1000).getMinutes(),
+                  icon = <img className="Card-image" src = {"http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"} />
           })
             
            /* {
@@ -58,7 +58,7 @@ const WeatherContainer = () => {
       high={weatherItem.highTemp}
       sunrise={weatherItem.sunrise}
       sunset={weatherItem.sunset}
-      
+      icon={weatherItem.icon} 
     />
   )
 })}
