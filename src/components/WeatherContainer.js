@@ -13,20 +13,22 @@ const WeatherContainer = () => {
              process.env.API_KEY,
         ).then((response) => {
             const weatherData = response.data.list.map(item => {
-              temp = Math.Round(item.main.temp),
-              hum = item.main.humidity,
-              lowTemp = Math.round(item.main.temp_min),
-              highTemp = Math.round(item.main.temp_max),
-                sunrise =
+              return {
+              temp: Math.round(item.main.temp),
+              hum: item.main.humidity,
+              lowTemp: Math.round(item.main.temp_min),
+              highTemp: Math.round(item.main.temp_max),
+                sunrise:
                   new Date(item.city.sunrise * 1000).getHours() +
                   ':' +
                   new Date(item.city.sunrise * 1000).getMinutes(),
-                sunset =
+                sunset:
                   new Date(item.city.sunset * 1000).getHours() +
                   ':' +
                   new Date(item.city.sunset * 1000).getMinutes(),
-                  icon = <img className="Card-image" src = {"http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"} />
-          })
+                  icon: <img className="Card-image" src = {"http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"} />
+              }
+                })
             
            /* {
                 temp: Math.round(response.data.list[0].main.temp) ,

@@ -30591,10 +30591,18 @@ var WeatherContainer = function WeatherContainer() {
   (0, _react.useEffect)(function () {
     _axios.default.get("http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
       var weatherData = response.data.list.map(function (item) {
-        temp = Math.Round(item.main.temp), hum = item.main.humidity, lowTemp = Math.round(item.main.temp_min), highTemp = Math.round(item.main.temp_max), sunrise = new Date(item.city.sunrise * 1000).getHours() + ':' + new Date(item.city.sunrise * 1000).getMinutes(), sunset = new Date(item.city.sunset * 1000).getHours() + ':' + new Date(item.city.sunset * 1000).getMinutes(), icon = /*#__PURE__*/_react.default.createElement("img", {
-          className: "Card-image",
-          src: "http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"
-        });
+        return {
+          temp: Math.round(item.main.temp),
+          hum: item.main.humidity,
+          lowTemp: Math.round(item.main.temp_min),
+          highTemp: Math.round(item.main.temp_max),
+          sunrise: new Date(item.city.sunrise * 1000).getHours() + ':' + new Date(item.city.sunrise * 1000).getMinutes(),
+          sunset: new Date(item.city.sunset * 1000).getHours() + ':' + new Date(item.city.sunset * 1000).getMinutes(),
+          icon: /*#__PURE__*/_react.default.createElement("img", {
+            className: "Card-image",
+            src: "http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"
+          })
+        };
       });
       /* {
            temp: Math.round(response.data.list[0].main.temp) ,
@@ -30771,7 +30779,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63073" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64571" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
