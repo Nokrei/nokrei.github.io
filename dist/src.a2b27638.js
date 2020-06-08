@@ -30587,9 +30587,12 @@ var WeatherContainer = function WeatherContainer() {
   var weatherData = currentWeather;
   (0, _react.useEffect)(function () {
     _axios.default.get("http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
-      var weatherData = response.data.list.map(function (item) {
+      var getSingleEntry = response.data.list.filter(function (item) {
+        return new Date(item.dt_txt).getHours() === 12;
+      });
+      var weatherData = getSingleEntry.map(function (item) {
         var date = new Date(item.dt_txt).getDay();
-        console.log(new Date(item.dt_txt).getDate());
+        console.log(getSingleEntry);
         var days = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."];
         var day = days[date - 1];
         return {
@@ -30784,7 +30787,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64766" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54311" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -12,9 +12,10 @@ const WeatherContainer = () => {
             "http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" +
              process.env.API_KEY,
         ).then((response) => {
-            const weatherData = response.data.list.map(item => {
+          const getSingleEntry = response.data.list.filter(item => new Date(item.dt_txt).getHours() === 12)  
+            const weatherData = getSingleEntry.map(item => {
               const date = new Date(item.dt_txt).getDay()
-              console.log(new Date(item.dt_txt).getDate());
+              console.log(getSingleEntry);
               const days = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."];
               const day = days[date - 1];
               return {
@@ -51,7 +52,7 @@ const WeatherContainer = () => {
                   icon: <img className="Card-image" src = {"http://openweathermap.org/img/w/" + response.data.list[0].weather[0].icon + ".png"} />
             };
 */        
-
+            
             setCurrentWeather(weatherData);
         });
         
