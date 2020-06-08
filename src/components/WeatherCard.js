@@ -1,12 +1,9 @@
 import React from "react";
 
-const numOfDay = new Date().getDay();
-const days = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."];
-const day = days[numOfDay - 1];
 const WeatherCard = (props) => {
     return(
         <div className="Card">
-          <div><h1>{day}</h1></div>
+          <div><h1>{props.day}</h1></div>
           <div >{props.icon}</div>
           <div>Current: {props.temp + '\u00b0'}</div>
           <div>Humidity: {props.humidity + '\u0025' }  </div>
