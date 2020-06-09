@@ -30539,7 +30539,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var WeatherCard = function WeatherCard(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "Card"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, props.day)), /*#__PURE__*/_react.default.createElement("div", null, props.icon), /*#__PURE__*/_react.default.createElement("div", null, "Current: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, props.day)), /*#__PURE__*/_react.default.createElement("div", null, props.icon), /*#__PURE__*/_react.default.createElement("div", null, "Midday: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
 };
 
 var _default = WeatherCard;
@@ -30586,23 +30586,31 @@ var WeatherContainer = function WeatherContainer() {
 
   var weatherData = currentWeather;
   (0, _react.useEffect)(function () {
-    _axios.default.get("http://api.openweathermap.org/data/2.5/forecast?q=dubai&units=metric&APPID=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
-      var getSingleEntry = response.data.list.filter(function (item) {
-        return new Date(item.dt_txt).getHours() === 12;
-      });
-      var weatherData = getSingleEntry.map(function (item) {
-        var date = new Date(item.dt_txt).getDay();
-        console.log(getSingleEntry);
+    _axios.default.get("https://api.openweathermap.org/data/2.5/onecall?lat=25.276987&lon=55.296249&exclude=minutely,hourly&units=metric&appid=" + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
+      var weatherData = response.data.daily.map(function (item) {
+        var date = new Date(item.dt * 1000).getDay();
         var days = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."];
-        var day = days[date - 1];
+
+        var currentDay = function currentDay() {
+          return date === 0 ? "Sun" : days[date - 1];
+        };
+
+        var sunrMinutes = function sunrMinutes() {
+          return new Date(item.sunrise * 1000).getMinutes() > 9 ? new Date(item.sunrise * 1000).getMinutes() : "0" + new Date(item.sunrise * 1000).getMinutes();
+        };
+
+        var sunsMinutes = function sunsMinutes() {
+          return new Date(item.sunset * 1000).getMinutes() > 9 ? new Date(item.sunset * 1000).getMinutes() : "0" + new Date(item.sunset * 1000).getMinutes();
+        };
+
         return {
-          day: day,
-          temp: Math.round(item.main.temp),
-          hum: item.main.humidity,
-          lowTemp: Math.round(item.main.temp_min),
-          highTemp: Math.round(item.main.temp_max),
-          sunrise: new Date(response.data.city.sunrise * 1000).getHours() + ':' + new Date(response.data.city.sunrise * 1000).getMinutes(),
-          sunset: new Date(response.data.city.sunset * 1000).getHours() + ':' + new Date(response.data.city.sunset * 1000).getMinutes(),
+          day: currentDay(),
+          temp: Math.round(item.temp.day),
+          hum: item.humidity,
+          lowTemp: Math.round(item.temp.min),
+          highTemp: Math.round(item.temp.max),
+          sunrise: new Date(item.sunrise * 1000).getHours() + ':' + sunrMinutes(),
+          sunset: new Date(item.sunset * 1000).getHours() + ':' + sunsMinutes(),
           icon: /*#__PURE__*/_react.default.createElement("img", {
             className: "Card-image",
             src: "http://openweathermap.org/img/w/" + item.weather[0].icon + ".png"
@@ -30787,7 +30795,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54311" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64891" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
