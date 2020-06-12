@@ -22,7 +22,8 @@
     display: grid;
     grid-template-rows: auto;
     text-align: center;
-    border:  outset
+    border:  outset;
+    justify-self: center;
     
 }
 .Card-image {
