@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const SearchBar = () => {
-  const [name, setName] = useState('');
-  const [city, setCity] = useState("Dubai")
+const SearchBar = (props) => {
+  
 
-  const handleChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleClick = () => {
-    setCity(name)
-  }
   return (
     <div className="searchBar">
-      <h1>Showing forecast for {city}</h1>
+      <h1>Showing forecast for {props.city}</h1>
       <input
-        onChange={handleChange}
+        onChange={props.handleChange}
         type="text"
         placeholder="Input city name"
-        value={name}
+        value={props.value}
       />
-      <button onClick={handleClick}>Submit</button>
+      <button onClick={props.handleClick}>Submit</button>
     </div>
   );
 };
 
-export default SearchBar
+export default SearchBar;

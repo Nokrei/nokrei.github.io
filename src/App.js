@@ -5,7 +5,7 @@ import './';
 import SearchBar from './components/SearchBar';
 
 const App = () => {
-  return  <div><SearchBar /> <WeatherContainer /></div>;
+  return  <div> <WeatherContainer /></div>;
 };
 
 export default App;

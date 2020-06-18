@@ -30558,46 +30558,16 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var SearchBar = function SearchBar() {
-  var _useState = (0, _react.useState)(''),
-      _useState2 = _slicedToArray(_useState, 2),
-      name = _useState2[0],
-      setName = _useState2[1];
-
-  var _useState3 = (0, _react.useState)("Dubai"),
-      _useState4 = _slicedToArray(_useState3, 2),
-      city = _useState4[0],
-      setCity = _useState4[1];
-
-  var handleChange = function handleChange(event) {
-    setName(event.target.value);
-  };
-
-  var handleClick = function handleClick() {
-    setCity(name);
-  };
-
+var SearchBar = function SearchBar(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "searchBar"
-  }, /*#__PURE__*/_react.default.createElement("h1", null, "Showing forecast for ", city), /*#__PURE__*/_react.default.createElement("input", {
-    onChange: handleChange,
+  }, /*#__PURE__*/_react.default.createElement("h1", null, "Showing forecast for ", props.city), /*#__PURE__*/_react.default.createElement("input", {
+    onChange: props.handleChange,
     type: "text",
     placeholder: "Input city name",
-    value: name
+    value: props.value
   }), /*#__PURE__*/_react.default.createElement("button", {
-    onClick: handleClick
+    onClick: props.handleClick
   }, "Submit"));
 };
 
@@ -30646,8 +30616,42 @@ var WeatherContainer = function WeatherContainer() {
       setCurrentWeather = _useState2[1];
 
   var weatherData = currentWeather;
+
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      name = _useState4[0],
+      setName = _useState4[1];
+
+  var _useState5 = (0, _react.useState)('Dubai'),
+      _useState6 = _slicedToArray(_useState5, 2),
+      city = _useState6[0],
+      setCity = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      coords = _useState8[0],
+      setCoords = _useState8[1];
+
+  var handleChange = function handleChange(event) {
+    setName(event.target.value);
+  };
+
+  var handleClick = function handleClick() {
+    setCity(name);
+  };
+
   (0, _react.useEffect)(function () {
-    _axios.default.get('https://api.openweathermap.org/data/2.5/onecall?lat=25.276987&lon=55.296249&exclude=minutely,hourly&units=metric&appid=' + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
+    _axios.default.get('https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' + city + '&format=json').then(function (response) {
+      var coords = {
+        lat: response.data[0].lat,
+        lon: response.data[0].lon
+      };
+      setCoords(coords);
+    });
+  }, [city]);
+  console.log(coords);
+  (0, _react.useEffect)(function () {
+    _axios.default.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + coords.lat + '&lon=' + coords.lon + '&exclude=minutely,hourly&units=metric&appid=' + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
       var weatherData = response.data.daily.map(function (item) {
         var date = new Date(item.dt * 1000).getDay();
         var days = ['Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.', 'Sun.'];
@@ -30680,7 +30684,10 @@ var WeatherContainer = function WeatherContainer() {
       });
       setCurrentWeather(weatherData);
     });
-  }, []);
+  }, [{
+    SearchBar: _SearchBar.default
+  }]);
+  console.log(weatherData);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
   }, weatherData.map(function (weatherItem) {
@@ -30694,6 +30701,11 @@ var WeatherContainer = function WeatherContainer() {
       sunset: weatherItem.sunset,
       icon: weatherItem.icon
     });
+  }), ",", /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
+    handleChange: handleChange,
+    value: name,
+    handleClick: handleClick,
+    city: city
   }));
 };
 
@@ -30720,7 +30732,7 @@ var _SearchBar = _interopRequireDefault(require("./components/SearchBar"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_SearchBar.default, null), " ", /*#__PURE__*/_react.default.createElement(_WeatherContainer.default, null));
+  return /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_WeatherContainer.default, null));
 };
 
 var _default = App;
@@ -30841,7 +30853,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53120" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54860" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

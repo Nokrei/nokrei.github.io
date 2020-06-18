@@ -9,10 +9,34 @@ const WeatherContainer = () => {
   const [currentWeather, setCurrentWeather] = useState([]);
   const weatherData = currentWeather;
   
+  const [name, setName] = useState('');
+  const [city, setCity] = useState('Dubai');
+  const [coords, setCoords] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+  const handleClick = () => {
+    setCity(name);
+  };
+  useEffect(() => {
+    Axios.get(
+      'https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' +
+        city +
+        '&format=json',
+    ).then((response) => {
+      const coords = {
+        lat: response.data[0].lat,
+        lon: response.data[0].lon,
+      };
+      setCoords(coords);
+    });
+  }, [city]);
+  console.log(coords);
   
   useEffect(() => {
     Axios.get(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=25.276987&lon=55.296249&exclude=minutely,hourly&units=metric&appid=' +
+      'https://api.openweathermap.org/data/2.5/onecall?lat=' + coords.lat + '&lon=' + coords.lon + '&exclude=minutely,hourly&units=metric&appid=' +
         process.env.API_KEY,
     ).then((response) => {
       const weatherData = response.data.daily.map((item) => {
@@ -56,8 +80,9 @@ const WeatherContainer = () => {
 
       setCurrentWeather(weatherData);
     });
-  }, []);
-
+  }, [{SearchBar}]);
+  console.log(weatherData);
+  
   return (
     <div className="container">
       {weatherData.map((weatherItem) => {
@@ -73,7 +98,13 @@ const WeatherContainer = () => {
             icon={weatherItem.icon}
           />
         );
-      })}
+      })},
+      <SearchBar
+      handleChange={handleChange}
+      value={name}
+      handleClick={handleClick}
+      city={city}
+      />
     </div>
   );
 };
