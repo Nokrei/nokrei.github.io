@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import 'dotenv/config.js';
 import Axios from 'axios';
 import WeatherCard from './WeatherCard';
-import SearchBar from "./SearchBar"
-
+import SearchBar from './SearchBar';
 
 const WeatherContainer = () => {
   const [currentWeather, setCurrentWeather] = useState([]);
   const weatherData = currentWeather;
-  
+
   const [name, setName] = useState('');
   const [city, setCity] = useState('Dubai');
   const [coords, setCoords] = useState('');
@@ -33,10 +32,14 @@ const WeatherContainer = () => {
     });
   }, [city]);
   console.log(coords);
-  
+
   useEffect(() => {
     Axios.get(
-      'https://api.openweathermap.org/data/2.5/onecall?lat=' + coords.lat + '&lon=' + coords.lon + '&exclude=minutely,hourly&units=metric&appid=' +
+      'https://api.openweathermap.org/data/2.5/onecall?lat=' +
+        coords.lat +
+        '&lon=' +
+        coords.lon +
+        '&exclude=minutely,hourly&units=metric&appid=' +
         process.env.API_KEY,
     ).then((response) => {
       const weatherData = response.data.daily.map((item) => {
@@ -80,31 +83,34 @@ const WeatherContainer = () => {
 
       setCurrentWeather(weatherData);
     });
-  }, [{SearchBar}]);
+  }, [coords]);
   console.log(weatherData);
-  
+
   return (
-    <div className="container">
-      {weatherData.map((weatherItem) => {
-        return (
-          <WeatherCard
-            day={weatherItem.day}
-            temp={weatherItem.temp}
-            humidity={weatherItem.hum}
-            low={weatherItem.lowTemp}
-            high={weatherItem.highTemp}
-            sunrise={weatherItem.sunrise}
-            sunset={weatherItem.sunset}
-            icon={weatherItem.icon}
-          />
-        );
-      })},
+    <div>
       <SearchBar
-      handleChange={handleChange}
-      value={name}
-      handleClick={handleClick}
-      city={city}
+        handleChange={handleChange}
+        value={name}
+        handleClick={handleClick}
+        city={city[0].toUpperCase() + city.slice(1)}
       />
+      <div className="container">
+        {weatherData.map((weatherItem) => {
+          return (
+            <WeatherCard
+              day={weatherItem.day}
+              temp={weatherItem.temp}
+              humidity={weatherItem.hum}
+              low={weatherItem.lowTemp}
+              high={weatherItem.highTemp}
+              sunrise={weatherItem.sunrise}
+              sunset={weatherItem.sunset}
+              icon={weatherItem.icon}
+            />
+          );
+        })}
+        ,
+      </div>
     </div>
   );
 };

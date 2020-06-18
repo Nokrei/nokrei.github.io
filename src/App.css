@@ -7,13 +7,16 @@
     outline: 0;
     vertical-align: baseline;
     background: transparent;
+    
 }
 .container{
     display: grid;
     grid-template-columns:1fr 1fr 1fr 1fr;
     
+    
 }
 .Card {
+    
     font-family: 'Roboto', sans-serif;
     color: #8a8a88d7;
     width: 10vw;
@@ -28,5 +31,23 @@
 }
 .Card-image {
     width: 7em;
-
+}
+.searchBar {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+.searchBar input {
+    border:none;
+    border-bottom: 1px solid black;
+    margin: 1em;
+}
+.button {
+    border: 1px solid black;
+    padding: 0 1em 0 1em;
+    transition-duration: 0.4s;
+}
+.button:hover{
+    background-color:#292928d7;
+    color:white;
+    cursor: pointer;
 }

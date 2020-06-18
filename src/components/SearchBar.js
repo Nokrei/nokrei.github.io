@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 const SearchBar = (props) => {
-  
-
   return (
     <div className="searchBar">
       <h1>Showing forecast for {props.city}</h1>
@@ -12,7 +10,7 @@ const SearchBar = (props) => {
         placeholder="Input city name"
         value={props.value}
       />
-      <button onClick={props.handleClick}>Submit</button>
+      <button className="button" onClick={props.handleClick}>Submit</button>
     </div>
   );
 };

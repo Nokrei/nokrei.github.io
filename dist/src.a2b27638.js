@@ -30567,6 +30567,7 @@ var SearchBar = function SearchBar(props) {
     placeholder: "Input city name",
     value: props.value
   }), /*#__PURE__*/_react.default.createElement("button", {
+    className: "button",
     onClick: props.handleClick
   }, "Submit"));
 };
@@ -30684,11 +30685,14 @@ var WeatherContainer = function WeatherContainer() {
       });
       setCurrentWeather(weatherData);
     });
-  }, [{
-    SearchBar: _SearchBar.default
-  }]);
+  }, [coords]);
   console.log(weatherData);
-  return /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
+    handleChange: handleChange,
+    value: name,
+    handleClick: handleClick,
+    city: city[0].toUpperCase() + city.slice(1)
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
   }, weatherData.map(function (weatherItem) {
     return /*#__PURE__*/_react.default.createElement(_WeatherCard.default, {
@@ -30701,12 +30705,7 @@ var WeatherContainer = function WeatherContainer() {
       sunset: weatherItem.sunset,
       icon: weatherItem.icon
     });
-  }), ",", /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
-    handleChange: handleChange,
-    value: name,
-    handleClick: handleClick,
-    city: city
-  }));
+  }), ","));
 };
 
 var _default = WeatherContainer;
@@ -30732,7 +30731,7 @@ var _SearchBar = _interopRequireDefault(require("./components/SearchBar"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_WeatherContainer.default, null));
+  return /*#__PURE__*/_react.default.createElement("div", null, ' ', /*#__PURE__*/_react.default.createElement(_WeatherContainer.default, null));
 };
 
 var _default = App;
@@ -30853,7 +30852,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54860" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57008" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

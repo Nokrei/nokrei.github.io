@@ -5,7 +5,12 @@ import './';
 import SearchBar from './components/SearchBar';
 
 const App = () => {
-  return  <div> <WeatherContainer /></div>;
+  return (
+    <div>
+      {' '}
+      <WeatherContainer />
+    </div>
+  );
 };
 
 export default App;
