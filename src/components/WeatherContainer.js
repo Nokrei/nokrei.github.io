@@ -18,6 +18,7 @@ const WeatherContainer = () => {
   const handleClick = () => {
     setCity(name);
   };
+
   useEffect(() => {
     Axios.get(
       'https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' +
@@ -46,7 +47,7 @@ const WeatherContainer = () => {
         const date = new Date(item.dt * 1000).getDay();
         const days = ['Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.', 'Sun.'];
         const currentDay = () => {
-          return date === 0 ? 'Sun' : days[date - 1];
+          return date === 0 ? 'Sun.' : days[date - 1];
         };
         const sunrMinutes = () => {
           return new Date(item.sunrise * 1000).getMinutes() > 9
@@ -61,6 +62,7 @@ const WeatherContainer = () => {
 
         return {
           day: currentDay(),
+          fullDate: new Date(item.dt * 1000).toDateString().slice(4),
           temp: Math.round(item.temp.day),
           hum: item.humidity,
           lowTemp: Math.round(item.temp.min),
@@ -99,6 +101,7 @@ const WeatherContainer = () => {
           return (
             <WeatherCard
               day={weatherItem.day}
+              fullDate={weatherItem.fullDate}
               temp={weatherItem.temp}
               humidity={weatherItem.hum}
               low={weatherItem.lowTemp}

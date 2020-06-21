@@ -30539,7 +30539,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var WeatherCard = function WeatherCard(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "Card"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, props.day)), /*#__PURE__*/_react.default.createElement("div", null, props.icon), /*#__PURE__*/_react.default.createElement("div", null, "Midday: ", props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, "Humidity: ", props.humidity + "%", "  "), /*#__PURE__*/_react.default.createElement("div", null, "Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunrise: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("div", null, "Sunset: ", props.sunset, " "));
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "Card--title"
+  }, /*#__PURE__*/_react.default.createElement("h1", null, props.day), /*#__PURE__*/_react.default.createElement("p", null, props.fullDate)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "Card--details"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "Card--details-big"
+  }, /*#__PURE__*/_react.default.createElement("p", null, props.temp + "\xB0"), /*#__PURE__*/_react.default.createElement("div", null, props.icon)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "Card--details-small"
+  }, /*#__PURE__*/_react.default.createElement("p", null, "Temp Min: ", props.low + "\xB0", " "), /*#__PURE__*/_react.default.createElement("p", null, "Temp Max: ", props.high + "\xB0", " "), /*#__PURE__*/_react.default.createElement("p", null, "Sunrise at: ", props.sunrise, " "), /*#__PURE__*/_react.default.createElement("p", null, "Sunset at: ", props.sunset, " "), /*#__PURE__*/_react.default.createElement("p", null, "Humidity: ", props.humidity + "%", " "))));
 };
 
 var _default = WeatherCard;
@@ -30561,7 +30569,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var SearchBar = function SearchBar(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "searchBar"
-  }, /*#__PURE__*/_react.default.createElement("h1", null, "Showing forecast for ", props.city), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("h1", null, "Displaying forecast for: ", props.city), /*#__PURE__*/_react.default.createElement("input", {
     onChange: props.handleChange,
     type: "text",
     placeholder: "Input city name",
@@ -30569,7 +30577,7 @@ var SearchBar = function SearchBar(props) {
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "button",
     onClick: props.handleClick
-  }, "Submit"));
+  }, "Search"));
 };
 
 var _default = SearchBar;
@@ -30658,7 +30666,7 @@ var WeatherContainer = function WeatherContainer() {
         var days = ['Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.', 'Sun.'];
 
         var currentDay = function currentDay() {
-          return date === 0 ? 'Sun' : days[date - 1];
+          return date === 0 ? 'Sun.' : days[date - 1];
         };
 
         var sunrMinutes = function sunrMinutes() {
@@ -30671,6 +30679,7 @@ var WeatherContainer = function WeatherContainer() {
 
         return {
           day: currentDay(),
+          fullDate: new Date(item.dt * 1000).toDateString().slice(4),
           temp: Math.round(item.temp.day),
           hum: item.humidity,
           lowTemp: Math.round(item.temp.min),
@@ -30697,6 +30706,7 @@ var WeatherContainer = function WeatherContainer() {
   }, weatherData.map(function (weatherItem) {
     return /*#__PURE__*/_react.default.createElement(_WeatherCard.default, {
       day: weatherItem.day,
+      fullDate: weatherItem.fullDate,
       temp: weatherItem.temp,
       humidity: weatherItem.hum,
       low: weatherItem.lowTemp,
@@ -30852,7 +30862,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57008" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53195" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,53 +1,97 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    vertical-align: baseline;
-    background: transparent;
-    
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+  background-color: rgb(245, 238, 230);
 }
-.container{
-    display: grid;
-    grid-template-columns:1fr 1fr 1fr 1fr;
-    
-    
+.container {
+  display: grid;
+  
 }
 .Card {
-    
-    font-family: 'Roboto', sans-serif;
-    color: #8a8a88d7;
-    width: 10vw;
-    padding: 1em;
-    margin: 1em;
-    display: grid;
-    grid-template-rows: auto;
-    text-align: center;
-    border:  outset;
-    justify-self: center;
-    
+  font-family: 'Montserrat', sans-serif;
+  color: #8a8a88d7;
+  width: 40vw;
+  padding: 1em;
+  display: grid;
+  text-align: left;
+  border: groove;
+  justify-self: left;
+  transition-duration: 0.4s;
+}
+.Card:first-of-type {
+  grid-area: 1/1/2/3;
+  justify-self: center;
+  transform: scale(1.6);
+  margin: 6em 0 6em 0;
+}
+.Card:not(:first-of-type){
+  margin: 2em;
+  justify-self: center;
+}
+.Card--details{
+  display:grid;
+  grid-template-columns: 0.7fr 1fr;
+}
+.Card--details-big{
+  display: flex;
+}
+.Card--details-big p{
+  font-size: 5em;
+}
+.Card--details-small{
+  display:grid;
+  grid-template-columns: 130px 130px;
+  color:black;
+  margin-left:2em
+}
+.Card:hover{
+  background-color:rgb(226, 218, 209) ;
+}
+.Card:not(:first-of-type):hover {
+  transform: scale(1.15)
 }
 .Card-image {
-    width: 7em;
+  width: 7em;
 }
 .searchBar {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  margin-top: 1em;
 }
 .searchBar input {
-    border:none;
-    border-bottom: 1px solid black;
-    margin: 1em;
+  border: none;
+  border-bottom: 1px solid rgb(114, 113, 113);
+  margin: 1em;
+  transition: 0.4s;
+  font-size: 1em;
+}
+.searchBar input:focus {
+  background-color: #292928d7;
+  color: white;
+  border-bottom: 1px solid white;
+  transition-duration: 0.4s;
+  padding: 1em;
+  font-size:1em;
 }
 .button {
-    border: 1px solid black;
-    padding: 0 1em 0 1em;
-    transition-duration: 0.4s;
+  border: none;
+  border-radius: 5px;
+  padding: 1em;
+  padding: 1 1em 0 1em;
+  transition-duration: 0.4s;
+  font-size: 1em;
 }
-.button:hover{
-    background-color:#292928d7;
-    color:white;
-    cursor: pointer;
+.button:active{
+  transform: translateY(5px)
+}
+.button:hover {
+  background-color: #292928d7;
+  color: white;
+  cursor: pointer;
 }
