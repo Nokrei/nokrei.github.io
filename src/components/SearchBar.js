@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 const SearchBar = (props) => {
   return (
     <div className="searchBar">
-      <h1>Displaying forecast for: {props.city}</h1>
+      <h1>Displaying Forecast For: {props.city}</h1>
       <input
+        onKeyDown={props.handleKeyDown}
         onChange={props.handleChange}
         type="text"
         placeholder="Input city name"

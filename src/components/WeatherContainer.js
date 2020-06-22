@@ -3,12 +3,29 @@ import 'dotenv/config.js';
 import Axios from 'axios';
 import WeatherCard from './WeatherCard';
 import SearchBar from './SearchBar';
+import useGeolocation from 'react-hook-geolocation';
 
 const WeatherContainer = () => {
   const [currentWeather, setCurrentWeather] = useState([]);
+  //const geolocation = useGeolocation();
   const weatherData = currentWeather;
+  //const [startCity, setStartCity] = useState('');
+ // useEffect(() => {
+   // Axios.get(
+   //   'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
+   //     geolocation.latitude +
+   //     '&lon=' +
+//geolocation.longitude +
+//'&format=json',
+//).then((response) => {
+//      const startCity = response.data.address.city;
+ //     setStartCity(startCity);
+ //   });
+//  });
+ // console.log(startCity);
 
   const [name, setName] = useState('');
+
   const [city, setCity] = useState('Dubai');
   const [coords, setCoords] = useState('');
 
@@ -18,7 +35,11 @@ const WeatherContainer = () => {
   const handleClick = () => {
     setCity(name);
   };
-
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      setCity(name);
+    }
+  };
   useEffect(() => {
     Axios.get(
       'https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' +
@@ -91,6 +112,7 @@ const WeatherContainer = () => {
   return (
     <div>
       <SearchBar
+        handleKeyDown={handleKeyDown}
         handleChange={handleChange}
         value={name}
         handleClick={handleClick}

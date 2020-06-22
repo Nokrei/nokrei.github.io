@@ -30569,7 +30569,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var SearchBar = function SearchBar(props) {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "searchBar"
-  }, /*#__PURE__*/_react.default.createElement("h1", null, "Displaying forecast for: ", props.city), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("h1", null, "Displaying Forecast For: ", props.city), /*#__PURE__*/_react.default.createElement("input", {
+    onKeyDown: props.handleKeyDown,
     onChange: props.handleChange,
     type: "text",
     placeholder: "Input city name",
@@ -30581,6 +30582,118 @@ var SearchBar = function SearchBar(props) {
 };
 
 var _default = SearchBar;
+exports.default = _default;
+},{"react":"node_modules/react/index.js"}],"node_modules/react-hook-geolocation/dist/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = require("react");
+
+const useGeolocation = ({
+  enableHighAccuracy,
+  maximumAge,
+  timeout
+} = {}, callback) => {
+  const [coordinates, setCoordinates] = (0, _react.useState)({
+    accuracy: null,
+    altitude: null,
+    altitudeAccuracy: null,
+    heading: null,
+    latitude: null,
+    longitude: null,
+    speed: null,
+    timestamp: null,
+    error: null
+  });
+  (0, _react.useEffect)(() => {
+    let didCancel;
+
+    const updateCoordinates = ({
+      coords = {},
+      timestamp
+    }) => {
+      const {
+        accuracy,
+        altitude,
+        altitudeAccuracy,
+        heading,
+        latitude,
+        longitude,
+        speed
+      } = coords;
+
+      if (!didCancel) {
+        setCoordinates({
+          accuracy,
+          altitude,
+          altitudeAccuracy,
+          heading,
+          latitude,
+          longitude,
+          speed,
+          timestamp,
+          error: null
+        });
+
+        if (callback instanceof Function) {
+          callback({
+            accuracy,
+            altitude,
+            altitudeAccuracy,
+            heading,
+            latitude,
+            longitude,
+            speed,
+            timestamp,
+            error: null
+          });
+        }
+      }
+    };
+
+    const setError = error => {
+      if (!didCancel) {
+        updateCoordinates({
+          accuracy: null,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          latitude: null,
+          longitude: null,
+          speed: null,
+          timestamp: null,
+          error
+        });
+      }
+    };
+
+    let watchId;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(updateCoordinates, setError);
+      watchId = navigator.geolocation.watchPosition(updateCoordinates, setError, {
+        enableHighAccuracy,
+        maximumAge,
+        timeout
+      });
+    }
+
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+
+      didCancel = true;
+    };
+  }, []);
+  return coordinates;
+};
+
+var _default = useGeolocation;
 exports.default = _default;
 },{"react":"node_modules/react/index.js"}],"src/components/WeatherContainer.js":[function(require,module,exports) {
 "use strict";
@@ -30599,6 +30712,8 @@ var _axios = _interopRequireDefault(require("axios"));
 var _WeatherCard = _interopRequireDefault(require("./WeatherCard"));
 
 var _SearchBar = _interopRequireDefault(require("./SearchBar"));
+
+var _reactHookGeolocation = _interopRequireDefault(require("react-hook-geolocation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30622,9 +30737,23 @@ var WeatherContainer = function WeatherContainer() {
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       currentWeather = _useState2[0],
-      setCurrentWeather = _useState2[1];
+      setCurrentWeather = _useState2[1]; //const geolocation = useGeolocation();
 
-  var weatherData = currentWeather;
+
+  var weatherData = currentWeather; //const [startCity, setStartCity] = useState('');
+  // useEffect(() => {
+  // Axios.get(
+  //   'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
+  //     geolocation.latitude +
+  //     '&lon=' +
+  //geolocation.longitude +
+  //'&format=json',
+  //).then((response) => {
+  //      const startCity = response.data.address.city;
+  //     setStartCity(startCity);
+  //   });
+  //  });
+  // console.log(startCity);
 
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -30647,6 +30776,12 @@ var WeatherContainer = function WeatherContainer() {
 
   var handleClick = function handleClick() {
     setCity(name);
+  };
+
+  var handleKeyDown = function handleKeyDown(event) {
+    if (event.keyCode === 13) {
+      setCity(name);
+    }
   };
 
   (0, _react.useEffect)(function () {
@@ -30697,6 +30832,7 @@ var WeatherContainer = function WeatherContainer() {
   }, [coords]);
   console.log(weatherData);
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
+    handleKeyDown: handleKeyDown,
     handleChange: handleChange,
     value: name,
     handleClick: handleClick,
@@ -30720,7 +30856,7 @@ var WeatherContainer = function WeatherContainer() {
 
 var _default = WeatherContainer;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","dotenv/config.js":"node_modules/dotenv/config.js","axios":"node_modules/axios/index.js","./WeatherCard":"src/components/WeatherCard.js","./SearchBar":"src/components/SearchBar.js"}],"src/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","dotenv/config.js":"node_modules/dotenv/config.js","axios":"node_modules/axios/index.js","./WeatherCard":"src/components/WeatherCard.js","./SearchBar":"src/components/SearchBar.js","react-hook-geolocation":"node_modules/react-hook-geolocation/dist/index.js"}],"src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30862,7 +30998,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53195" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54652" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
