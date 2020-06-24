@@ -30737,30 +30737,31 @@ var WeatherContainer = function WeatherContainer() {
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       currentWeather = _useState2[0],
-      setCurrentWeather = _useState2[1]; //const geolocation = useGeolocation();
+      setCurrentWeather = _useState2[1];
 
-
-  var weatherData = currentWeather; //const [startCity, setStartCity] = useState('');
-  // useEffect(() => {
-  // Axios.get(
-  //   'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
-  //     geolocation.latitude +
-  //     '&lon=' +
-  //geolocation.longitude +
-  //'&format=json',
-  //).then((response) => {
-  //      const startCity = response.data.address.city;
-  //     setStartCity(startCity);
-  //   });
-  //  });
-  // console.log(startCity);
+  var geolocation = (0, _reactHookGeolocation.default)();
+  /*
+    const [startCity, setStartCity] = useState('');
+    useEffect(() => {
+      Axios.get(
+        'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
+          geolocation.latitude +
+          '&lon=' +
+          geolocation.longitude +
+          '&format=json',
+      ).then((response) => {
+        const startCity = response.data.address.city;
+        setStartCity(startCity);
+      });
+    }, [city]);
+  */
 
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
       name = _useState4[0],
       setName = _useState4[1];
 
-  var _useState5 = (0, _react.useState)('Dubai'),
+  var _useState5 = (0, _react.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
       city = _useState6[0],
       setCity = _useState6[1];
@@ -30785,6 +30786,22 @@ var WeatherContainer = function WeatherContainer() {
   };
 
   (0, _react.useEffect)(function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (_ref) {
+        var coords = _ref.coords;
+
+        _axios.default.get('https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' + coords.latitude + '&lon=' + coords.longitude + '&format=json').then(function (response) {
+          var startCity = response.data.address.city;
+          setCity(startCity);
+        });
+      });
+    }
+  }, []);
+  (0, _react.useEffect)(function () {
+    if (!city) {
+      return;
+    }
+
     _axios.default.get('https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' + city + '&format=json').then(function (response) {
       var coords = {
         lat: response.data[0].lat,
@@ -30793,8 +30810,11 @@ var WeatherContainer = function WeatherContainer() {
       setCoords(coords);
     });
   }, [city]);
-  console.log(coords);
   (0, _react.useEffect)(function () {
+    if (!coords) {
+      return;
+    }
+
     _axios.default.get('https://api.openweathermap.org/data/2.5/onecall?lat=' + coords.lat + '&lon=' + coords.lon + '&exclude=minutely,hourly&units=metric&appid=' + "aa347b74dfb95be2226e6cc5b1e11fe4").then(function (response) {
       var weatherData = response.data.daily.map(function (item) {
         var date = new Date(item.dt * 1000).getDay();
@@ -30813,6 +30833,7 @@ var WeatherContainer = function WeatherContainer() {
         };
 
         return {
+          key: item.dt,
           day: currentDay(),
           fullDate: new Date(item.dt * 1000).toDateString().slice(4),
           temp: Math.round(item.temp.day),
@@ -30830,8 +30851,7 @@ var WeatherContainer = function WeatherContainer() {
       setCurrentWeather(weatherData);
     });
   }, [coords]);
-  console.log(weatherData);
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
+  return city ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
     handleKeyDown: handleKeyDown,
     handleChange: handleChange,
     value: name,
@@ -30839,8 +30859,9 @@ var WeatherContainer = function WeatherContainer() {
     city: city[0].toUpperCase() + city.slice(1)
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "container"
-  }, weatherData.map(function (weatherItem) {
+  }, currentWeather.map(function (weatherItem) {
     return /*#__PURE__*/_react.default.createElement(_WeatherCard.default, {
+      key: weatherItem.key,
       day: weatherItem.day,
       fullDate: weatherItem.fullDate,
       temp: weatherItem.temp,
@@ -30851,7 +30872,7 @@ var WeatherContainer = function WeatherContainer() {
       sunset: weatherItem.sunset,
       icon: weatherItem.icon
     });
-  }), ","));
+  }), ",")) : null;
 };
 
 var _default = WeatherContainer;
@@ -30968,8 +30989,6 @@ require("./App.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, null), document.getElementById("root"));
-
-console.log("aa347b74dfb95be2226e6cc5b1e11fe4");
 },{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./App":"src/App.js","./App.css":"src/App.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -30998,7 +31017,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54652" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55258" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

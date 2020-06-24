@@ -8,4 +8,4 @@ import "./App.css"
     document.getElementById("root")
   );
 
-  console.log(process.env.API_KEY)
+  

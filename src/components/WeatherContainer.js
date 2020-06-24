@@ -7,26 +7,26 @@ import useGeolocation from 'react-hook-geolocation';
 
 const WeatherContainer = () => {
   const [currentWeather, setCurrentWeather] = useState([]);
-  //const geolocation = useGeolocation();
-  const weatherData = currentWeather;
-  //const [startCity, setStartCity] = useState('');
- // useEffect(() => {
-   // Axios.get(
-   //   'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
-   //     geolocation.latitude +
-   //     '&lon=' +
-//geolocation.longitude +
-//'&format=json',
-//).then((response) => {
-//      const startCity = response.data.address.city;
- //     setStartCity(startCity);
- //   });
-//  });
- // console.log(startCity);
-
+  const geolocation = useGeolocation();
+  
+/*
+  const [startCity, setStartCity] = useState('');
+  useEffect(() => {
+    Axios.get(
+      'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
+        geolocation.latitude +
+        '&lon=' +
+        geolocation.longitude +
+        '&format=json',
+    ).then((response) => {
+      const startCity = response.data.address.city;
+      setStartCity(startCity);
+    });
+  }, [city]);
+*/
   const [name, setName] = useState('');
 
-  const [city, setCity] = useState('Dubai');
+  const [city, setCity] = useState('');
   const [coords, setCoords] = useState('');
 
   const handleChange = (event) => {
@@ -41,6 +41,25 @@ const WeatherContainer = () => {
     }
   };
   useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        Axios.get(
+          'https://us1.locationiq.com/v1/reverse.php?key=83a51c8110956c&lat=' +
+            coords.latitude +
+            '&lon=' +
+            coords.longitude +
+            '&format=json',
+        ).then((response) => {
+          const startCity = response.data.address.city;
+          setCity(startCity);
+        });
+      });
+    }
+  }, []);
+  useEffect(() => {
+    if (!city) {
+      return;
+    }
     Axios.get(
       'https://us1.locationiq.com/v1/search.php?key=83a51c8110956c&q=' +
         city +
@@ -53,9 +72,11 @@ const WeatherContainer = () => {
       setCoords(coords);
     });
   }, [city]);
-  console.log(coords);
 
   useEffect(() => {
+    if (!coords) {
+      return;
+    }
     Axios.get(
       'https://api.openweathermap.org/data/2.5/onecall?lat=' +
         coords.lat +
@@ -82,6 +103,7 @@ const WeatherContainer = () => {
         };
 
         return {
+          key: item.dt,
           day: currentDay(),
           fullDate: new Date(item.dt * 1000).toDateString().slice(4),
           temp: Math.round(item.temp.day),
@@ -107,9 +129,8 @@ const WeatherContainer = () => {
       setCurrentWeather(weatherData);
     });
   }, [coords]);
-  console.log(weatherData);
 
-  return (
+  return city ? (
     <div>
       <SearchBar
         handleKeyDown={handleKeyDown}
@@ -119,9 +140,10 @@ const WeatherContainer = () => {
         city={city[0].toUpperCase() + city.slice(1)}
       />
       <div className="container">
-        {weatherData.map((weatherItem) => {
+        {currentWeather.map((weatherItem) => {
           return (
             <WeatherCard
+              key={weatherItem.key}
               day={weatherItem.day}
               fullDate={weatherItem.fullDate}
               temp={weatherItem.temp}
@@ -137,7 +159,7 @@ const WeatherContainer = () => {
         ,
       </div>
     </div>
-  );
+  ): null;
 };
 
 export default WeatherContainer;
