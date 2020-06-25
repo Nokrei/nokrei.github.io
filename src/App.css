@@ -11,7 +11,6 @@
 }
 .container {
   display: grid;
-  
 }
 .Card {
   font-family: 'Montserrat', sans-serif;
@@ -30,34 +29,88 @@
   transform: scale(1.6);
   margin: 6em 0 6em 0;
 }
-.Card:not(:first-of-type){
+.Card:not(:first-of-type) {
   margin: 2em;
   justify-self: center;
 }
-.Card--details{
-  display:grid;
+.Card--details {
+  display: grid;
   grid-template-columns: 0.7fr 1fr;
 }
-.Card--details-big{
+.Card--details-big {
   display: flex;
+  font-size: 1em;
 }
-.Card--details-big p{
+.Card--details-big p {
   font-size: 5em;
 }
-.Card--details-small{
-  display:grid;
+.Card--details-small {
+  display: grid;
   grid-template-columns: 130px 130px;
-  color:black;
-  margin-left:2em
+  color: black;
+  margin-left: 2em;
 }
-.Card:hover{
-  background-color:rgb(226, 218, 209) ;
+.Card:hover {
+  background-color: rgb(226, 218, 209);
 }
 .Card:not(:first-of-type):hover {
-  transform: scale(1.15)
+  transform: scale(1.15);
 }
 .Card-image {
   width: 7em;
+}
+
+@media only screen and (max-width: 600px) {
+  
+  .Card::-webkit-scrollbar{
+    display: none;
+  }
+  .Card {
+    height: 100vh;
+    width: 90vw;
+    display: grid;
+    grid-template-rows: auto;
+    text-align: center;
+    transform: scale(1);
+    overflow-y: scroll;
+    
+  }
+  .Card:first-of-type {
+    grid-area: 1/1/1/1;
+    margin: 0;
+    transform: scale(1);
+  }
+  .Card:not(:first-of-type) {
+    margin: 1em 0 1em 0;
+  }
+  .Card:not(:first-of-type):hover {
+    transform: scale(1);
+  }
+  .Card--title{
+    font-size: 2.5em;
+  }
+  .Card--details {
+    display: flex;
+    flex-direction: column;
+  }
+  .Card--details-big {
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+  }
+  .Card--details-big p {
+    font-size: 12em;
+  }
+  .Card--details-small {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    margin-left: 0;
+    font-size: 1.5em;
+  }
+  .Card-image {
+    width: 15em;
+  }
 }
 .searchBar {
   font-family: 'Montserrat', sans-serif;
@@ -77,7 +130,7 @@
   border-bottom: 1px solid white;
   transition-duration: 0.4s;
   padding: 1em;
-  font-size:1em;
+  font-size: 1em;
 }
 .button {
   border: none;
@@ -87,8 +140,8 @@
   transition-duration: 0.4s;
   font-size: 1em;
 }
-.button:active{
-  transform: translateY(5px)
+.button:active {
+  transform: translateY(5px);
 }
 .button:hover {
   background-color: #292928d7;
