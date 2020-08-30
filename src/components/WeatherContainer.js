@@ -83,7 +83,7 @@ const WeatherContainer = () => {
         '&lon=' +
         coords.lon +
         '&exclude=minutely,hourly&units=metric&appid=' +
-        process.env.API_KEY,
+        'aa347b74dfb95be2226e6cc5b1e11fe4',
     ).then((response) => {
       const weatherData = response.data.daily.map((item) => {
         const date = new Date(item.dt * 1000).getDay();
