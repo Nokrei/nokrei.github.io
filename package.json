@@ -10,10 +10,6 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brewsterbhg/react-weather-app/issues"
-  },
-  "homepage": "https://github.com/brewsterbhg/react-weather-app#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
