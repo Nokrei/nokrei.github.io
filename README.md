@@ -1,1 +1,1 @@
-# react-weather-app
+This is a weather web application. Initially it uses the locationiq API to detect user's position and display the weather for that location. It also uses the openweather API to display the weather forecast for any location searched by the user. Number of searches limited due to using free variants of the APIs. This was my first project done with React. All the styling is done by me and kept in the App.css file.
